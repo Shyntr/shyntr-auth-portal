@@ -1,0 +1,46 @@
+{
+  "common": {
+    "poweredBy": "Powered by",
+    "shyntr": "Shyntr",
+    "loading": "Loading...",
+    "error": "Error",
+    "sessionExpired": "Session Expired",
+    "sessionExpiredDesc": "Your session has expired or is invalid. Please try again.",
+    "backToApp": "Back to Application"
+  },
+  "login": {
+    "signInTo": "Sign in to",
+    "toContinueTo": "to continue to",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "signIn": "Sign In",
+    "cancel": "Cancel",
+    "signingIn": "Signing in...",
+    "invalidCredentials": "Invalid username or password",
+    "enterUsername": "Enter your username",
+    "enterPassword": "Enter your password"
+  },
+  "consent": {
+    "accessRequest": "Access Request",
+    "wantsAccess": "wants access to your account on",
+    "selectPermissions": "Select the permissions you want to grant:",
+    "allow": "Allow",
+    "deny": "Deny",
+    "rememberDecision": "Remember this decision",
+    "processing": "Processing...",
+    "scopes": {
+      "openid": "Basic profile information",
+      "profile": "Your profile details (name, picture)",
+      "email": "Your email address",
+      "offline_access": "Stay signed in (offline access)",
+      "address": "Your address information",
+      "phone": "Your phone number"
+    }
+  },
+  "logout": {
+    "title": "Logged Out",
+    "message": "You have been successfully logged out.",
+    "backToLogin": "Go back to Login"
+  }
+}

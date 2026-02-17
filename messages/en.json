@@ -6,15 +6,19 @@
     "error": "Error",
     "sessionExpired": "Session Expired",
     "sessionExpiredDesc": "Your session has expired or is invalid. Please try again.",
-    "backToApp": "Back to Application"
+    "backToApp": "Back to Application",
+    "help": "Help",
+    "privacy": "Privacy",
+    "terms": "Terms"
   },
   "login": {
-    "signInTo": "Sign in to",
+    "signIn": "Sign in",
     "toContinueTo": "to continue to",
+    "at": "at",
     "username": "Username",
     "password": "Password",
     "rememberMe": "Remember me",
-    "signIn": "Sign In",
+    "next": "Next",
     "cancel": "Cancel",
     "signingIn": "Signing in...",
     "invalidCredentials": "Invalid username or password",
@@ -23,24 +27,25 @@
   },
   "consent": {
     "accessRequest": "Access Request",
-    "wantsAccess": "wants access to your account on",
-    "selectPermissions": "Select the permissions you want to grant:",
+    "wantsAccess": "wants access to your account",
+    "selectPermissions": "This will allow the app to:",
     "allow": "Allow",
+    "cancel": "Cancel",
     "deny": "Deny",
     "rememberDecision": "Remember this decision",
     "processing": "Processing...",
     "scopes": {
-      "openid": "Basic profile information",
-      "profile": "Your profile details (name, picture)",
-      "email": "Your email address",
-      "offline_access": "Stay signed in (offline access)",
-      "address": "Your address information",
-      "phone": "Your phone number"
+      "openid": "Verify your identity",
+      "profile": "View your profile information",
+      "email": "View your email address",
+      "offline_access": "Stay signed in",
+      "address": "View your address",
+      "phone": "View your phone number"
     }
   },
   "logout": {
-    "title": "Logged Out",
-    "message": "You have been successfully logged out.",
-    "backToLogin": "Go back to Login"
+    "title": "Signed out",
+    "message": "You have been successfully signed out.",
+    "backToLogin": "Return to Sign in"
   }
 }

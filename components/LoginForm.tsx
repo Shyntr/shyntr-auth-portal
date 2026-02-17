@@ -3,13 +3,13 @@
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { handleLoginSubmit, handleLoginCancel, LoginFormState } from '@/actions/auth';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { CardWrapper } from './CardWrapper';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, AlertCircle, User, Lock } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 
 interface LoginFormProps {
   loginChallenge: string;
@@ -20,7 +20,6 @@ interface LoginFormProps {
 export function LoginForm({ loginChallenge, tenantName, clientName }: LoginFormProps) {
   const t = useTranslations('login');
 
-  // Bind the loginChallenge to the action
   const boundAction = handleLoginSubmit.bind(null, loginChallenge);
   const [state, formAction, isPending] = useActionState<LoginFormState, FormData>(boundAction, {});
 
@@ -29,96 +28,99 @@ export function LoginForm({ loginChallenge, tenantName, clientName }: LoginFormP
   };
 
   return (
-    <Card className="w-full max-w-md shadow-xl border-0 bg-white/95 backdrop-blur-sm">
-      <CardHeader className="text-center pb-4">
-        <CardTitle className="text-2xl font-bold text-gray-900">
-          {t('signInTo')} <span className="text-orange-600">{tenantName}</span>
-        </CardTitle>
-        <CardDescription className="text-gray-600 mt-1">
-          {t('toContinueTo')} <span className="font-medium text-gray-800">{clientName}</span>
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form action={formAction} className="space-y-5">
-          {state.error && (
-            <Alert variant="destructive" className="bg-red-50 border-red-200">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                {state.error === 'invalid_credentials' ? t('invalidCredentials') : state.error}
-              </AlertDescription>
-            </Alert>
-          )}
-
-          <div className="space-y-2">
-            <Label htmlFor="username" className="text-gray-700 font-medium">
-              {t('username')}
-            </Label>
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                id="username"
-                name="username"
-                type="text"
-                placeholder={t('enterUsername')}
-                required
-                disabled={isPending}
-                className="pl-10 h-11 border-gray-200 focus:border-orange-500 focus:ring-orange-500"
-              />
-            </div>
+    <CardWrapper>
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+          {t('signIn')}
+        </h1>
+        <p className="text-sm text-gray-600">
+          {t('toContinueTo')} <span className="font-medium text-gray-900">{clientName}</span>
+        </p>
+        {tenantName !== 'Shyntr' && (
+          <div className="mt-3 inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs text-gray-600">
+            {t('at')} <span className="font-medium ml-1">{tenantName}</span>
           </div>
+        )}
+      </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password" className="text-gray-700 font-medium">
-              {t('password')}
-            </Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder={t('enterPassword')}
-                required
-                disabled={isPending}
-                className="pl-10 h-11 border-gray-200 focus:border-orange-500 focus:ring-orange-500"
-              />
-            </div>
-          </div>
+      <form action={formAction} className="space-y-5">
+        {state.error && (
+          <Alert variant="destructive" className="bg-red-50 border-red-100">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription className="text-sm">
+              {state.error === 'invalid_credentials' ? t('invalidCredentials') : state.error}
+            </AlertDescription>
+          </Alert>
+        )}
 
-          <div className="flex items-center space-x-2">
-            <Checkbox id="remember" name="remember" disabled={isPending} />
-            <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer">
-              {t('rememberMe')}
-            </Label>
-          </div>
+        <div className="space-y-2">
+          <Label htmlFor="username" className="text-sm font-medium text-gray-700">
+            {t('username')}
+          </Label>
+          <Input
+            id="username"
+            name="username"
+            type="text"
+            placeholder={t('enterUsername')}
+            required
+            disabled={isPending}
+            className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
 
-          <div className="flex gap-3 pt-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="flex-1 h-11 border-gray-200 hover:bg-gray-50"
-              onClick={handleCancel}
-              disabled={isPending}
-            >
-              {t('cancel')}
-            </Button>
-            <Button
-              type="submit"
-              className="flex-1 h-11 bg-orange-600 hover:bg-orange-700 text-white"
-              disabled={isPending}
-            >
-              {isPending ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t('signingIn')}
-                </>
-              ) : (
-                t('signIn')
-              )}
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+        <div className="space-y-2">
+          <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+            {t('password')}
+          </Label>
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            placeholder={t('enterPassword')}
+            required
+            disabled={isPending}
+            className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox 
+            id="remember" 
+            name="remember" 
+            disabled={isPending}
+            className="border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+          />
+          <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer font-normal">
+            {t('rememberMe')}
+          </Label>
+        </div>
+
+        <div className="flex items-center justify-between pt-4">
+          <Button
+            type="button"
+            variant="ghost"
+            className="text-sm text-gray-600 hover:text-gray-900 px-0"
+            onClick={handleCancel}
+            disabled={isPending}
+          >
+            {t('cancel')}
+          </Button>
+          <Button
+            type="submit"
+            className="h-10 px-8 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium"
+            disabled={isPending}
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {t('signingIn')}
+              </>
+            ) : (
+              t('next')
+            )}
+          </Button>
+        </div>
+      </form>
+    </CardWrapper>
   );
 }

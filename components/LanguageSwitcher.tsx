@@ -3,13 +3,13 @@
 import { useTransition } from 'react';
 import { setLocale } from '@/actions/auth';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Globe } from 'lucide-react';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { Globe, Check } from 'lucide-react';
 
 interface LanguageSwitcherProps {
   currentLocale: string;
@@ -23,30 +23,46 @@ const languages = [
 export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
   const [isPending, startTransition] = useTransition();
 
-  const handleChange = (value: string) => {
+  const handleChange = (locale: string) => {
+    if (locale === currentLocale) return;
     startTransition(async () => {
-      await setLocale(value);
-      // Reload the page to apply new locale
+      await setLocale(locale);
       window.location.reload();
     });
   };
 
+  const currentLang = languages.find(l => l.code === currentLocale) || languages[0];
+
   return (
-    <Select value={currentLocale} onValueChange={handleChange} disabled={isPending}>
-      <SelectTrigger className="w-[130px] bg-white/80 backdrop-blur-sm border-gray-200 hover:bg-white transition-colors">
-        <Globe className="h-4 w-4 mr-2 text-gray-500" />
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-9 px-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+          disabled={isPending}
+        >
+          <Globe className="h-4 w-4 mr-2" />
+          <span className="text-sm">{currentLang.name}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-40">
         {languages.map((lang) => (
-          <SelectItem key={lang.code} value={lang.code}>
+          <DropdownMenuItem
+            key={lang.code}
+            onClick={() => handleChange(lang.code)}
+            className="flex items-center justify-between cursor-pointer"
+          >
             <span className="flex items-center gap-2">
               <span>{lang.flag}</span>
               <span>{lang.name}</span>
             </span>
-          </SelectItem>
+            {currentLocale === lang.code && (
+              <Check className="h-4 w-4 text-blue-600" />
+            )}
+          </DropdownMenuItem>
         ))}
-      </SelectContent>
-    </Select>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

@@ -30,22 +30,22 @@ export function LoginForm({ loginChallenge, tenantName, clientName }: LoginFormP
   return (
     <CardWrapper>
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">
           {t('signIn')}
         </h1>
-        <p className="text-sm text-gray-600">
-          {t('toContinueTo')} <span className="font-medium text-gray-900">{clientName}</span>
+        <p className="text-sm text-gray-500">
+          {t('toContinueTo')} <span className="font-semibold text-gray-700">{clientName}</span>
         </p>
         {tenantName !== 'Shyntr' && (
-          <div className="mt-3 inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs text-gray-600">
-            {t('at')} <span className="font-medium ml-1">{tenantName}</span>
+          <div className="mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
+            {t('at')} <span className="font-semibold ml-1 text-gray-800">{tenantName}</span>
           </div>
         )}
       </div>
 
-      <form action={formAction} className="space-y-5">
+      <form action={formAction} className="space-y-6">
         {state.error && (
-          <Alert variant="destructive" className="bg-red-50 border-red-100">
+          <Alert variant="destructive" className="bg-red-50 border-red-200 rounded-xl">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription className="text-sm">
               {state.error === 'invalid_credentials' ? t('invalidCredentials') : state.error}
@@ -64,7 +64,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName }: LoginFormP
             placeholder={t('enterUsername')}
             required
             disabled={isPending}
-            className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+            className="h-12 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500 text-base"
           />
         </div>
 
@@ -79,16 +79,16 @@ export function LoginForm({ loginChallenge, tenantName, clientName }: LoginFormP
             placeholder={t('enterPassword')}
             required
             disabled={isPending}
-            className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+            className="h-12 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500 text-base"
           />
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <Checkbox 
             id="remember" 
             name="remember" 
             disabled={isPending}
-            className="border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+            className="h-5 w-5 border-gray-300 rounded data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
           />
           <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer font-normal">
             {t('rememberMe')}
@@ -99,7 +99,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName }: LoginFormP
           <Button
             type="button"
             variant="ghost"
-            className="text-sm text-gray-600 hover:text-gray-900 px-0"
+            className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-4"
             onClick={handleCancel}
             disabled={isPending}
           >
@@ -107,7 +107,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName }: LoginFormP
           </Button>
           <Button
             type="submit"
-            className="h-10 px-8 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium"
+            className="h-11 px-8 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all"
             disabled={isPending}
           >
             {isPending ? (

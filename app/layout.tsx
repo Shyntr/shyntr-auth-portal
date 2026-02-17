@@ -33,8 +33,8 @@ export default async function RootLayout({
             <LanguageSwitcher currentLocale={locale} />
           </div>
 
-          {/* Main Content - Centered */}
-          <main className="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+          {/* Main Content - True Centering */}
+          <main className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             {children}
           </main>
         </NextIntlClientProvider>

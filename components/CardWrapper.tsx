@@ -8,7 +8,7 @@ interface CardWrapperProps {
 
 export function CardWrapper({ children, showLogo = true }: CardWrapperProps) {
   return (
-    <div className="w-full max-w-[450px] mx-auto">
+    <div style={{ maxWidth: '450px', width: '100%' }}>
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-10">
         {showLogo && (
           <div className="flex justify-center mb-6">

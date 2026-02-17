@@ -1,6 +1,7 @@
 'use client';
 
-import { useActionState, useTransition } from 'react';
+import { useTransition } from 'react';
+import { useFormState } from 'react-dom';
 import { useTranslations } from 'next-intl';
 import { handleConsentAccept, handleConsentDeny, ConsentFormState } from '@/actions/auth';
 import { CardWrapper } from './CardWrapper';
@@ -38,8 +39,15 @@ export function ConsentForm({
   const scopeT = useTranslations('consent.scopes');
 
   const boundAction = handleConsentAccept.bind(null, consentChallenge);
-  const [state, formAction, isPending] = useActionState<ConsentFormState, FormData>(boundAction, {});
+  const [state, formAction] = useFormState(boundAction, {});
+  const [isPending, startTransition] = useTransition();
   const [isDenying, startDenyTransition] = useTransition();
+
+  const handleSubmit = (payload: FormData) => {
+    startTransition(() => {
+      formAction(payload);
+    });
+  };
 
   const handleDeny = () => {
     startDenyTransition(async () => {
@@ -73,7 +81,7 @@ export function ConsentForm({
         </div>
       )}
 
-      <form action={formAction} className="space-y-6">
+      <form action={handleSubmit} className="space-y-6">
         {state.error && (
           <Alert variant="destructive" className="bg-red-50 border-red-200 rounded-xl">
             <AlertCircle className="h-4 w-4" />

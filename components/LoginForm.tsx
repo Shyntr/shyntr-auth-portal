@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useFormState } from 'react-dom';
 import { useTranslations } from 'next-intl';
 import { handleLoginSubmit, handleLoginCancel, LoginFormState } from '@/actions/auth';
 import { CardWrapper } from './CardWrapper';
@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, AlertCircle } from 'lucide-react';
+import {useTransition} from "react";
 
 interface LoginFormProps {
   loginChallenge: string;
@@ -21,7 +22,14 @@ export function LoginForm({ loginChallenge, tenantName, clientName }: LoginFormP
   const t = useTranslations('login');
 
   const boundAction = handleLoginSubmit.bind(null, loginChallenge);
-  const [state, formAction, isPending] = useActionState<LoginFormState, FormData>(boundAction, {});
+  const [state, formAction] = useFormState(boundAction, {});
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = (payload: FormData) => {
+    startTransition(() => {
+      formAction(payload);
+    });
+  };
 
   const handleCancel = async () => {
     await handleLoginCancel(loginChallenge);
@@ -43,7 +51,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName }: LoginFormP
         )}
       </div>
 
-      <form action={formAction} className="space-y-6">
+      <form action={handleSubmit} className="space-y-6">
         {state.error && (
           <Alert variant="destructive" className="bg-red-50 border-red-200 rounded-xl">
             <AlertCircle className="h-4 w-4" />

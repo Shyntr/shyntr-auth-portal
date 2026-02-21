@@ -50,7 +50,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/shyntr-auth-portal
+          images: shyntr/shyntr-auth-portal
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -73,7 +73,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: ${{ secrets.DOCKERHUB_USERNAME }}/shyntr-auth-portal
+          repository: shyntr/shyntr-auth-portal
           short-description: "Shyntr - Identity Management Auth Portal"
           readme-filepath: ./README.md
 

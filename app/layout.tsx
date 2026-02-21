@@ -4,7 +4,7 @@ import { getMessages, getLocale } from 'next-intl/server';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 export const metadata = {
-  title: 'Shyntr Auth Portal',
+  title: 'Shyntr | Auth Portal',
   description: 'Secure authentication portal powered by Shyntr',
 };
 

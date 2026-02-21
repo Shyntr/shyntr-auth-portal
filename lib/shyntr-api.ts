@@ -62,6 +62,20 @@ export interface ApiError {
   status_code?: number;
 }
 
+export interface AuthMethod {
+  id: string;
+  type: "password" | "saml" | "oidc";
+  name: string;
+  logo_url?: string;
+  login_url?: string;
+}
+
+export interface LoginMethodsResponse {
+  challenge: string;
+  tenant_id: string;
+  methods: AuthMethod[];
+}
+
 // Create axios instance for internal API calls
 const INTERNAL_API_URL = process.env.SHYNTR_INTERNAL_API_URL || 'http://localhost:7497/admin';
 
@@ -170,5 +184,18 @@ export async function rejectConsent(consentChallenge: string): Promise<{ data?: 
     return { data: response.data };
   } catch (error) {
     return { error: handleApiError(error) };
+  }
+}
+
+export async function getLoginMethods(challenge: string): Promise<{ data?: LoginMethodsResponse; error?: any }> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SHYNTR_CORE_URL}/auth/methods?login_challenge=${challenge}`, {
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error(`Methods could not be retrieved: " + res.statusText + " (" + res.status +)`);
+    const data = await res.json();
+    return { data };
+  } catch (error) {
+    return { error };
   }
 }

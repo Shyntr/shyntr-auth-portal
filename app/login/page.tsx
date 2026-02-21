@@ -1,4 +1,4 @@
-import { getLoginSession } from '@/lib/shyntr-api';
+import { getLoginSession, getLoginMethods } from '@/lib/shyntr-api';
 import { LoginForm } from '@/components/LoginForm';
 import { SessionExpired } from '@/components/SessionExpired';
 
@@ -14,21 +14,26 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     return <SessionExpired />;
   }
 
-  const { data, error } = await getLoginSession(loginChallenge);
+  const [sessionRes, methodsRes] = await Promise.all([
+    getLoginSession(loginChallenge),
+    getLoginMethods(loginChallenge)
+  ]);
 
-  if (error || !data) {
-    console.error('Login session fetch failed:', error);
+  if (sessionRes.error || !sessionRes.data || methodsRes.error) {
+    console.error('Login session or methods fetch failed:', sessionRes.error || methodsRes.error);
     return <SessionExpired />;
   }
 
-  const tenantName = data.tenant?.display_name || 'Shyntr';
-  const clientName = data.client?.client_name || 'Application';
+  const tenantName = sessionRes.data.tenant?.display_name || 'Shyntr';
+  const clientName = sessionRes.data.client?.client_name || 'Application';
+  const methods = methodsRes.data?.methods || [];
 
   return (
     <LoginForm
       loginChallenge={loginChallenge}
       tenantName={tenantName}
       clientName={clientName}
+      methods={methods}
     />
   );
 }

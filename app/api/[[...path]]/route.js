@@ -2,19 +2,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { NextResponse } from 'next/server'
 
-// MongoDB connection
-// let client
-// let db
-
-// async function connectToMongo() {
-//   if (!client) {
-//     client = new MongoClient(process.env.MONGO_URL)
-//     await client.connect()
-//     db = client.db(process.env.DB_NAME)
-//   }
-//   return db
-// }
-
 // Helper function to handle CORS
 function handleCORS(response) {
   response.headers.set('Access-Control-Allow-Origin', process.env.CORS_ORIGINS || '*')
@@ -36,9 +23,6 @@ async function handleRoute(request, { params }) {
   const method = request.method
 
   try {
-    // const db = await connectToMongo()
-
-    // Root endpoint - GET /api/root (since /api/ is not accessible with catch-all)
     if (route === '/root' && method === 'GET') {
       return handleCORS(NextResponse.json({ message: "Hello World" }))
     }
@@ -67,19 +51,6 @@ async function handleRoute(request, { params }) {
       // await db.collection('status_checks').insertOne(statusObj)
       return handleCORS(NextResponse.json(statusObj))
     }
-
-    // // Status endpoints - GET /api/status
-    // if (route === '/status' && method === 'GET') {
-    //   const statusChecks = await db.collection('status_checks')
-    //     .find({})
-    //     .limit(1000)
-    //     .toArray()
-    //
-    //   // Remove MongoDB's _id field from response
-    //   const cleanedStatusChecks = statusChecks.map(({ _id, ...rest }) => rest)
-    //
-    //   return handleCORS(NextResponse.json(cleanedStatusChecks))
-    // }
 
     // Route not found
     return handleCORS(NextResponse.json(

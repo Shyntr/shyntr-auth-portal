@@ -13,7 +13,7 @@ export function CardWrapper({ children, showLogo = true }: CardWrapperProps) {
         {showLogo && (
           <div className="flex justify-center mb-8">
             <Image
-              src="https://customer-assets.emergentagent.com/job_shyntr-sso/artifacts/kzn1h3w2_mascot.png"
+              src="/mascot.png"
               alt="Shyntr"
               width={56}
               height={56}

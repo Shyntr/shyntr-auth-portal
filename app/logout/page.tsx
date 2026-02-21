@@ -20,7 +20,7 @@ export default async function LogoutPage() {
           {t('message')}
         </p>
         <Link href="/login">
-          <Button 
+          <Button
             className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all"
           >
             {t('backToLogin')}

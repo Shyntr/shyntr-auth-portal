@@ -63,7 +63,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
 
   const handleSSORedirect = (loginUrl?: string) => {
     if (!loginUrl) return;
-    window.location.href = `${process.env.NEXT_PUBLIC_SHYNTR_CORE_URL || ''}${loginUrl}`;
+    window.location.href = `${loginUrl}`;
   };
 
   return (

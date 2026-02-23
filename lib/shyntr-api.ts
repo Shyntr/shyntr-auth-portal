@@ -77,10 +77,14 @@ export interface LoginMethodsResponse {
 }
 
 // Create axios instance for internal API calls
-const INTERNAL_API_URL = process.env.SHYNTR_INTERNAL_API_URL || 'http://localhost:7497/admin';
+const INTERNAL_API_URL = process.env.SHYNTR_INTERNAL_API_URL;
+const PUBLIC_API_URL = process.env.SHYNTR_PUBLIC_API_URL;
+if (!INTERNAL_API_URL || !PUBLIC_API_URL) {
+  throw new Error("SHYNTR_INTERNAL_API_URL or SHYNTR_PUBLIC_API_URL are required")
+}
 
 const apiClient = axios.create({
-  baseURL: INTERNAL_API_URL,
+  baseURL: `${INTERNAL_API_URL}/admin`,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -89,6 +93,7 @@ const apiClient = axios.create({
 
 // Helper to handle API errors
 function handleApiError(error: unknown): ApiError {
+  console.error('API error:', error);
   if (axios.isAxiosError(error)) {
     const axiosError = error as AxiosError<ApiError>;
     if (axiosError.response) {
@@ -189,7 +194,7 @@ export async function rejectConsent(consentChallenge: string): Promise<{ data?: 
 
 export async function getLoginMethods(challenge: string): Promise<{ data?: LoginMethodsResponse; error?: any }> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SHYNTR_CORE_URL}/auth/methods?login_challenge=${challenge}`, {
+    const res = await fetch(`${PUBLIC_API_URL}/auth/methods?login_challenge=${challenge}`, {
       cache: 'no-store'
     });
     if (!res.ok) throw new Error(`Methods could not be retrieved: " + res.statusText + " (" + res.status +)`);

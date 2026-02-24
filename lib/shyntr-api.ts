@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios';
 
-// Types for Shyntr API
 export interface TenantInfo {
   id: string;
   display_name: string;

@@ -46,6 +46,13 @@
   "logout": {
     "title": "Signed out",
     "message": "You have been successfully signed out.",
-    "backToLogin": "Return to Sign in"
+    "backToLogin": "Return to Sign in",
+    "confirmTitle": "Sign Out",
+    "confirmAppDesc": "Are you sure you want to sign out from {clientName}?",
+    "confirmDesc": "Are you sure you want to sign out?",
+    "yesSignOut": "Yes, Sign Out",
+    "cancel": "Cancel",
+    "processing": "Processing...",
+    "canceling": "Canceling..."
   }
 }

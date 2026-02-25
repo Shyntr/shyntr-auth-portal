@@ -49,6 +49,10 @@ export interface AcceptConsentPayload {
   grant_audience?: string[];
   remember?: boolean;
   remember_for?: number;
+  session?: {
+    access_token?: Record<string, unknown>;
+    id_token?: Record<string, unknown>;
+  };
 }
 
 export interface RedirectResponse {
@@ -73,6 +77,13 @@ export interface LoginMethodsResponse {
   challenge: string;
   tenant_id: string;
   methods: AuthMethod[];
+}
+
+export interface LogoutSessionResponse {
+  challenge: string;
+  client?: ClientInfo;
+  subject?: string;
+  request_url?: string;
 }
 
 // Create axios instance for internal API calls
@@ -201,5 +212,38 @@ export async function getLoginMethods(challenge: string): Promise<{ data?: Login
     return { data };
   } catch (error) {
     return { error };
+  }
+}
+
+export async function getLogoutSession(logoutChallenge: string): Promise<{ data?: LogoutSessionResponse; error?: ApiError }> {
+  try {
+    const response = await apiClient.get<LogoutSessionResponse>('/logout', {
+      params: { logout_challenge: logoutChallenge },
+    });
+    return { data: response.data };
+  } catch (error) {
+    return { error: handleApiError(error) };
+  }
+}
+
+export async function acceptLogout(logoutChallenge: string): Promise<{ data?: RedirectResponse; error?: ApiError }> {
+  try {
+    const response = await apiClient.put<RedirectResponse>('/logout/accept', {}, {
+      params: { logout_challenge: logoutChallenge },
+    });
+    return { data: response.data };
+  } catch (error) {
+    return { error: handleApiError(error) };
+  }
+}
+
+export async function rejectLogout(logoutChallenge: string): Promise<{ data?: RedirectResponse; error?: ApiError }> {
+  try {
+    const response = await apiClient.put<RedirectResponse>('/logout/reject', {}, {
+      params: { logout_challenge: logoutChallenge },
+    });
+    return { data: response.data };
+  } catch (error) {
+    return { error: handleApiError(error) };
   }
 }

@@ -3,8 +3,34 @@ import { CardWrapper } from '@/components/CardWrapper';
 import { Button } from '@/components/ui/button';
 import { CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import { getLogoutSession } from '@/lib/shyntr-api';
+import { LogoutForm } from '@/components/LogoutForm';
+import { SessionExpired } from '@/components/SessionExpired';
 
-export default async function LogoutPage() {
+interface LogoutPageProps {
+  searchParams: Promise<{ logout_challenge?: string }>;
+}
+
+export default async function LogoutPage({ searchParams }: LogoutPageProps) {
+  const params = await searchParams;
+  const logoutChallenge = params.logout_challenge;
+
+  if (logoutChallenge) {
+    const { data, error } = await getLogoutSession(logoutChallenge);
+
+    if (error || !data) {
+      console.error('Logout session fetch failed:', error);
+      return <SessionExpired />;
+    }
+
+    return (
+      <LogoutForm
+        logoutChallenge={logoutChallenge}
+        clientName={data.client?.client_name}
+      />
+    );
+  }
+
   const t = await getTranslations('logout');
 
   return (

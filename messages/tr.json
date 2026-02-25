@@ -46,6 +46,13 @@
   "logout": {
     "title": "Çıkış Yapıldı",
     "message": "Başarıyla çıkış yaptınız.",
-    "backToLogin": "Giriş sayfasına dön"
+    "backToLogin": "Giriş sayfasına dön",
+    "confirmTitle": "Çıkış Yap",
+    "confirmAppDesc": "{clientName} uygulamasından çıkış yapmak istediğinize emin misiniz?",
+    "confirmDesc": "Oturumunuzu kapatmak istediğinize emin misiniz?",
+    "yesSignOut": "Evet, Çıkış Yap",
+    "cancel": "İptal",
+    "processing": "İşleniyor...",
+    "canceling": "İptal ediliyor..."
   }
 }

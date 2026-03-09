@@ -12,18 +12,21 @@
     "terms": "Şartlar"
   },
   "login": {
+    "signInWith": "{name} ile Oturum aç",
     "signIn": "Oturum aç",
-    "toContinueTo": "devam etmek için",
+    "toContinueTo": "<b>{name}</b> uygulamasına devam etmek için",
     "at": "üzerinde",
     "username": "Kullanıcı Adı",
     "password": "Şifre",
     "rememberMe": "Beni hatırla",
     "next": "İleri",
+    "or": "veya",
     "cancel": "İptal",
     "signingIn": "Giriş yapılıyor...",
     "invalidCredentials": "Geçersiz kullanıcı adı veya şifre",
     "enterUsername": "Kullanıcı adınızı girin",
-    "enterPassword": "Şifrenizi girin"
+    "enterPassword": "Şifrenizi girin",
+    "noMethods": "Bu uygulama/tenant için tanımlanmış bir giriş yöntemi bulunamadı."
   },
   "consent": {
     "accessRequest": "Erişim İsteği",

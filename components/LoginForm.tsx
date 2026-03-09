@@ -52,7 +52,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
             {t('signIn')}
           </h1>
           <p className="text-sm text-gray-500">
-            {t('toContinueTo')} <span className="font-semibold text-gray-700">{clientName}</span>
+            {t.rich('toContinueTo', {name: clientName, b: (chunks) => <span className="font-semibold text-gray-700">{chunks}</span>})}
           </p>
           {tenantName !== 'Shyntr' && (
               <div className="mt-3 inline-flex items-center px-3 py-1.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
@@ -149,7 +149,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
                   <div className="w-full border-t border-gray-200" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="bg-white px-2 text-gray-500">veya</span>
+                  <span className="bg-white px-2 text-gray-500">{t('or')}</span>
                 </div>
               </div>
           )}
@@ -165,7 +165,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
                         onClick={() => handleSSORedirect(provider.login_url)}
                         disabled={isPending}
                     >
-                      {provider.name} ile {t('signIn')}
+                      {t('signInWith', {name: provider.name})}
                     </Button>
                 ))}
 
@@ -189,7 +189,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
               <Alert className="bg-yellow-50 border-yellow-200 rounded-xl">
                 <AlertCircle className="h-4 w-4 text-yellow-600" />
                 <AlertDescription className="text-sm text-yellow-800 ml-2">
-                  Bu uygulama/tenant için tanımlanmış bir giriş yöntemi bulunamadı.
+                  {t('noMethods')}
                 </AlertDescription>
               </Alert>
           )}

@@ -8,7 +8,7 @@ import {
   acceptConsent,
   rejectConsent,
   AcceptLoginPayload,
-  AcceptConsentPayload,
+  AcceptConsentPayload, acceptLogout, rejectLogout,
 } from '@/lib/shyntr-api';
 
 // Mock credentials for demo - in production, this would validate against a real user store
@@ -62,6 +62,11 @@ export async function handleLoginSubmit(
     remember_for: remember ? 3600 : 0,
     context: {
       username: username,
+      login_claims: {
+        email: `${username}@shyntr.local`,
+        department: 'Engineering',
+        employee_id: user.userId
+      }
     },
   };
 
@@ -112,6 +117,16 @@ export async function handleConsentAccept(
     grant_audience: [],
     remember,
     remember_for: remember ? 3600 : 0,
+    session: {
+      access_token: {
+        roles: ['admin', 'user'],
+        tenant_id: 'default'
+      },
+      id_token: {
+        email: 'user@example.com',
+        preferred_username: 'demo_user'
+      }
+    }
   };
 
   const result = await acceptConsent(consentChallenge, payload);
@@ -137,4 +152,31 @@ export async function handleConsentDeny(consentChallenge: string): Promise<void>
 
   // If no redirect, go to logout
   redirect('/logout');
+}
+
+// ================== LOGOUT ACTIONS ==================
+
+export async function handleLogoutAccept(logoutChallenge: string) {
+  const result = await acceptLogout(logoutChallenge);
+
+  if (result.error) {
+    console.error('Logout accept failed:', result.error);
+    redirect('/logout');
+  }
+
+  if (result.data?.redirect_to) {
+    redirect(result.data.redirect_to);
+  }
+
+  redirect('/logout');
+}
+
+export async function handleLogoutReject(logoutChallenge: string) {
+  const result = await rejectLogout(logoutChallenge);
+
+  if (result.data?.redirect_to) {
+    redirect(result.data.redirect_to);
+  }
+
+  redirect('/');
 }

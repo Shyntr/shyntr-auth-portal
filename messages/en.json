@@ -12,18 +12,21 @@
     "terms": "Terms"
   },
   "login": {
+    "signInWith": "Sign in with {name}",
     "signIn": "Sign in",
-    "toContinueTo": "to continue to",
+    "toContinueTo": "to continue to <b>{name}</b>",
     "at": "at",
     "username": "Username",
     "password": "Password",
     "rememberMe": "Remember me",
     "next": "Next",
+    "or": "Or",
     "cancel": "Cancel",
     "signingIn": "Signing in...",
     "invalidCredentials": "Invalid username or password",
     "enterUsername": "Enter your username",
-    "enterPassword": "Enter your password"
+    "enterPassword": "Enter your password",
+    "noMethods": "No defined login methods are found for application."
   },
   "consent": {
     "accessRequest": "Access Request",
@@ -46,6 +49,13 @@
   "logout": {
     "title": "Signed out",
     "message": "You have been successfully signed out.",
-    "backToLogin": "Return to Sign in"
+    "backToLogin": "Return to Sign in",
+    "confirmTitle": "Sign Out",
+    "confirmAppDesc": "Are you sure you want to sign out from {clientName}?",
+    "confirmDesc": "Are you sure you want to sign out?",
+    "yesSignOut": "Yes, Sign Out",
+    "cancel": "Cancel",
+    "processing": "Processing...",
+    "canceling": "Canceling..."
   }
 }

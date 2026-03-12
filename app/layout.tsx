@@ -1,12 +1,16 @@
 import './globals.css';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getLocale } from 'next-intl/server';
+import { getMessages, getLocale, getTranslations } from 'next-intl/server';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
-export const metadata = {
-  title: 'Shyntr | Auth Portal',
-  description: 'Secure authentication portal powered by Shyntr',
-};
+export async function generateMetadata() {
+  const t = await getTranslations('metadata');
+
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
 
 export default async function RootLayout({
   children,

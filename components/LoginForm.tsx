@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, AlertCircle } from 'lucide-react';
-import { useTransition } from "react";
+import {useCallback, useState, useTransition} from "react";
 import { AuthMethod } from "@/lib/shyntr-api";
 
 interface LoginFormProps {
@@ -26,9 +26,18 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
   const boundAction = handleLoginSubmit.bind(null, loginChallenge);
   const [state, formAction] = useFormState(boundAction, {});
   const [isPending, startTransition] = useTransition();
+  const [passwordFocused, setPasswordFocused] = useState(false);
 
   const passwordMethod = methods.find((m) => m.type === "password");
   const ssoMethods = methods.filter((m) => m.type !== "password");
+
+  const handleUsernameFocus = useCallback(() => {
+    setPasswordFocused(false);
+  }, []);
+
+  const handlePasswordFocus = useCallback(() => {
+    setPasswordFocused(true);
+  }, []);
 
   const handleSubmit = (payload: FormData) => {
     startTransition(() => {
@@ -46,7 +55,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
   };
 
   return (
-      <CardWrapper>
+      <CardWrapper mascotIdle={!passwordFocused}>
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             {t('signIn')}
@@ -72,7 +81,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
           )}
 
           {passwordMethod && (
-              <form action={handleSubmit} className="space-y-6">
+              <form action={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="username" className="text-sm font-medium text-gray-700">
                     {t('username')}
@@ -84,6 +93,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
                       placeholder={t('enterUsername')}
                       required
                       disabled={isPending}
+                      onFocus={handleUsernameFocus}
                       className="h-12 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500 text-base"
                   />
                 </div>
@@ -99,11 +109,12 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
                       placeholder={t('enterPassword')}
                       required
                       disabled={isPending}
+                      onFocus={handlePasswordFocus}
                       className="h-12 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-blue-500 text-base"
                   />
                 </div>
 
-                <div className="flex items-center space-x-3">
+                {/*<div className="flex items-center space-x-3">
                   <Checkbox
                       id="remember"
                       name="remember"
@@ -113,21 +124,12 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
                   <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer font-normal">
                     {t('rememberMe')}
                   </Label>
-                </div>
+                </div>*/}
 
                 <div className="flex items-center justify-between pt-4">
                   <Button
-                      type="button"
-                      variant="ghost"
-                      className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-4"
-                      onClick={handleCancel}
-                      disabled={isPending}
-                  >
-                    {t('cancel')}
-                  </Button>
-                  <Button
                       type="submit"
-                      className="h-11 px-8 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all"
+                      className="w-full h-11 px-8 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all"
                       disabled={isPending}
                   >
                     {isPending ? (
@@ -136,7 +138,7 @@ export function LoginForm({ loginChallenge, tenantName, clientName, methods }: L
                           {t('signingIn')}
                         </>
                     ) : (
-                        t('next')
+                        t('login')
                     )}
                   </Button>
                 </div>

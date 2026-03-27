@@ -1,4 +1,8 @@
 {
+  "metadata": {
+    "title": "Shyntr | Auth Portal",
+    "description": "Secure authentication portal powered by Shyntr"
+  },
   "common": {
     "poweredBy": "Powered by",
     "shyntr": "Shyntr",
@@ -11,6 +15,18 @@
     "privacy": "Privacy",
     "terms": "Terms"
   },
+  "home": {
+    "title": "Shyntr Auth Portal",
+    "subtitle": "Secure authentication portal for identity verification",
+    "description": "This portal handles authentication flows. Use the links below to test:",
+    "loginPage": "Login Page",
+    "loginDesc": "User authentication flow",
+    "consentPage": "Consent Page",
+    "consentDesc": "Permission grant flow",
+    "logoutPage": "Logout Page",
+    "logoutDesc": "Session termination",
+    "demoCredentials": "Demo Credentials"
+  },
   "login": {
     "signInWith": "Sign in with {name}",
     "signIn": "Sign in",
@@ -20,6 +36,7 @@
     "password": "Password",
     "rememberMe": "Remember me",
     "next": "Next",
+    "login": "Sign in",
     "or": "Or",
     "cancel": "Cancel",
     "signingIn": "Signing in...",

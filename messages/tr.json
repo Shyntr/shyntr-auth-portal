@@ -1,4 +1,8 @@
 {
+  "metadata": {
+    "title": "Shyntr | Kimlik Doğrulama Portalı",
+    "description": "Shyntr tarafından desteklenen güvenli kimlik doğrulama portalı"
+  },
   "common": {
     "poweredBy": "",
     "shyntr": "Shyntr",
@@ -11,6 +15,18 @@
     "privacy": "Gizlilik",
     "terms": "Şartlar"
   },
+  "home": {
+    "title": "Shyntr Auth Portal",
+    "subtitle": "Kimlik doğrulama için güvenli kimlik portalı",
+    "description": "Bu portal kimlik doğrulama akışlarını yönetir. Test etmek için aşağıdaki bağlantıları kullanın:",
+    "loginPage": "Giriş Sayfası",
+    "loginDesc": "Kullanıcı kimlik doğrulama akışı",
+    "consentPage": "İzin Sayfası",
+    "consentDesc": "İzin onay akışı",
+    "logoutPage": "Çıkış Sayfası",
+    "logoutDesc": "Oturum sonlandırma",
+    "demoCredentials": "Demo Kimlik Bilgileri"
+  },
   "login": {
     "signInWith": "{name} ile Oturum aç",
     "signIn": "Oturum aç",
@@ -20,6 +36,7 @@
     "password": "Şifre",
     "rememberMe": "Beni hatırla",
     "next": "İleri",
+    "login": "Giriş Yap",
     "or": "veya",
     "cancel": "İptal",
     "signingIn": "Giriş yapılıyor...",

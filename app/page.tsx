@@ -1,21 +1,24 @@
+import { getTranslations } from 'next-intl/server';
 import { CardWrapper } from '@/components/CardWrapper';
 import { ChevronRight, LogIn, CheckSquare, LogOut, Info } from 'lucide-react';
 import Link from 'next/link';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getTranslations('home');
+
   return (
     <CardWrapper>
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Shyntr Auth Portal
+          {t('title')}
         </h1>
         <p className="text-sm text-gray-500">
-          Secure authentication portal for identity verification
+          {t('subtitle')}
         </p>
       </div>
 
       <p className="text-sm text-gray-500 text-center mb-6">
-        This portal handles authentication flows. Use the links below to test:
+        {t('description')}
       </p>
       
       <div className="space-y-3">
@@ -25,10 +28,10 @@ export default function HomePage() {
               <LogIn className="h-5 w-5 text-blue-600" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">Login Page</div>
-              <div className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors">User authentication flow</div>
+              <div className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">{t('loginPage')}</div>
+              <div className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors">{t('loginDesc')}</div>
             </div>
-            <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
+             <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
           </div>
         </Link>
         
@@ -38,8 +41,8 @@ export default function HomePage() {
               <CheckSquare className="h-5 w-5 text-purple-600" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">Consent Page</div>
-              <div className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors">Permission grant flow</div>
+              <div className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">{t('consentPage')}</div>
+              <div className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors">{t('consentDesc')}</div>
             </div>
             <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
           </div>
@@ -51,8 +54,8 @@ export default function HomePage() {
               <LogOut className="h-5 w-5 text-green-600" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">Logout Page</div>
-              <div className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors">Session termination</div>
+              <div className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">{t('logoutPage')}</div>
+              <div className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors">{t('logoutDesc')}</div>
             </div>
             <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
           </div>
@@ -66,7 +69,7 @@ export default function HomePage() {
             <Info className="h-5 w-5 text-blue-600" />
           </div>
           <div>
-            <h3 className="font-semibold text-blue-900 text-sm mb-2">Demo Credentials</h3>
+            <h3 className="font-semibold text-blue-900 text-sm mb-2">{t('demoCredentials')}</h3>
             <div className="text-sm text-blue-800 space-y-1">
               <p>
                 <code className="font-mono bg-blue-100 px-2 py-0.5 rounded text-blue-900">admin</code>

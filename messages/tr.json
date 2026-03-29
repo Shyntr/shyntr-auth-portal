@@ -60,7 +60,9 @@
       "email": "E-posta adresinizi görüntüleme",
       "offline_access": "Oturumda kalma",
       "address": "Adresinizi görüntüleme",
-      "phone": "Telefon numaranızı görüntüleme"
+      "phone": "Telefon numaranızı görüntüleme",
+      "test": "Test için deneme scope",
+      "custom": "Test için özelleştirilmiş scope"
     }
   },
   "logout": {

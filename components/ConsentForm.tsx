@@ -26,6 +26,8 @@ const SCOPE_ICONS: Record<string, React.ReactNode> = {
   offline_access: <RefreshCw className="w-5 h-5 text-orange-600" />,
   address: <MapPin className="w-5 h-5 text-red-600" />,
   phone: <Phone className="w-5 h-5 text-teal-600" />,
+  test: <User className="w-5 h-5 text-purple-600" />,
+  custom: <Shield className="w-5 h-5 text-teal-600" />,
 };
 
 export function ConsentForm({ 

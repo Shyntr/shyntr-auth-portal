@@ -60,7 +60,9 @@
       "email": "View your email address",
       "offline_access": "Stay signed in",
       "address": "View your address",
-      "phone": "View your phone number"
+      "phone": "View your phone number",
+      "test": "Trial scope to test",
+      "custom": "Custom scope to test"
     }
   },
   "logout": {

@@ -1,45 +1,47 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useTransition } from 'react';
 import { useFormState } from 'react-dom';
 import { useTranslations } from 'next-intl';
-import { handleConsentAccept, handleConsentDeny, ConsentFormState } from '@/actions/auth';
+import { AlertCircle, Loader2, Mail, MapPin, Phone, RefreshCw, Shield, User } from 'lucide-react';
+import { ConsentFormState, handleConsentAccept, handleConsentDeny } from '@/actions/auth';
 import { CardWrapper } from './CardWrapper';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, AlertCircle, User, Shield, Mail, RefreshCw, MapPin, Phone } from 'lucide-react';
 
 interface ConsentFormProps {
   consentChallenge: string;
   tenantName: string;
   clientName: string;
   requestedScopes: string[];
+  requestedAudience: string[];
   userSubject?: string;
 }
 
-const SCOPE_ICONS: Record<string, React.ReactNode> = {
-  openid: <Shield className="w-5 h-5 text-blue-600" />,
-  profile: <User className="w-5 h-5 text-purple-600" />,
-  email: <Mail className="w-5 h-5 text-green-600" />,
-  offline_access: <RefreshCw className="w-5 h-5 text-orange-600" />,
-  address: <MapPin className="w-5 h-5 text-red-600" />,
-  phone: <Phone className="w-5 h-5 text-teal-600" />,
-  test: <User className="w-5 h-5 text-purple-600" />,
-  custom: <Shield className="w-5 h-5 text-teal-600" />,
+const SCOPE_ICONS: Record<string, ReactNode> = {
+  openid: <Shield className="h-5 w-5 text-blue-600" />,
+  profile: <User className="h-5 w-5 text-purple-600" />,
+  email: <Mail className="h-5 w-5 text-green-600" />,
+  offline_access: <RefreshCw className="h-5 w-5 text-orange-600" />,
+  address: <MapPin className="h-5 w-5 text-red-600" />,
+  phone: <Phone className="h-5 w-5 text-teal-600" />,
+  test: <User className="h-5 w-5 text-purple-600" />,
+  custom: <Shield className="h-5 w-5 text-teal-600" />,
 };
 
-export function ConsentForm({ 
-  consentChallenge, 
-  tenantName, 
-  clientName, 
+export function ConsentForm({
+  consentChallenge,
+  tenantName,
+  clientName,
   requestedScopes,
-  userSubject 
+  requestedAudience,
+  userSubject,
 }: ConsentFormProps) {
   const t = useTranslations('consent');
   const scopeT = useTranslations('consent.scopes');
-
   const boundAction = handleConsentAccept.bind(null, consentChallenge);
   const [state, formAction] = useFormState(boundAction, {});
   const [isPending, startTransition] = useTransition();
@@ -61,75 +63,105 @@ export function ConsentForm({
 
   return (
     <CardWrapper>
-      <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          {t('accessRequest')}
-        </h1>
+      <div className="mb-6 text-center">
+        <h1 className="mb-2 text-2xl font-bold text-gray-900">{t('accessRequest')}</h1>
         <p className="text-sm text-gray-500">
-          <span className="font-semibold text-gray-700">{clientName}</span>{' '}
-          {t('wantsAccess')}
+          <span className="font-semibold text-gray-700">{clientName}</span> {t('wantsAccess')}
         </p>
+        {tenantName !== 'Shyntr' && (
+          <div className="mt-3 inline-flex items-center rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600">
+            {tenantName}
+          </div>
+        )}
       </div>
 
-      {/* User Profile Chip */}
       {userSubject && (
-        <div className="flex items-center justify-center mb-6">
-          <div className="inline-flex items-center gap-3 px-4 py-2.5 bg-gray-50 rounded-xl border border-gray-200">
-            <div className="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center">
-              <User className="w-5 h-5 text-blue-600" />
+        <div className="mb-6 flex items-center justify-center">
+          <div className="inline-flex items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100">
+              <User className="h-5 w-5 text-blue-600" />
             </div>
-            <span className="text-sm text-gray-700 font-medium">{userSubject}</span>
+            <span className="text-sm font-medium text-gray-700">{userSubject}</span>
           </div>
         </div>
       )}
 
       <form action={handleSubmit} className="space-y-6">
         {state.error && (
-          <Alert variant="destructive" className="bg-red-50 border-red-200 rounded-xl">
+          <Alert variant="destructive" className="rounded-xl border-red-200 bg-red-50">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription className="text-sm">{state.error}</AlertDescription>
           </Alert>
         )}
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-gray-700 mb-3">
-            {t('selectPermissions')}
-          </p>
-          <div className="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
+          <p className="mb-3 text-sm font-medium text-gray-700">{t('selectPermissions')}</p>
+          <div className="divide-y divide-gray-100 overflow-hidden rounded-xl border border-gray-200">
             {requestedScopes.map((scope) => (
               <div
                 key={scope}
-                className="flex items-center gap-4 p-4 bg-white hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-4 bg-white p-4 transition-colors hover:bg-gray-50"
               >
                 <Checkbox
                   id={`scope_${scope}`}
                   name={`scope_${scope}`}
                   defaultChecked
                   disabled={isProcessing}
-                  className="h-5 w-5 border-gray-300 rounded data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                  className="h-5 w-5 rounded border-gray-300 data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600"
                 />
                 <Label
                   htmlFor={`scope_${scope}`}
-                  className="flex items-center gap-3 text-sm text-gray-700 cursor-pointer flex-1"
+                  className="flex flex-1 cursor-pointer items-center gap-3 text-sm text-gray-700"
                 >
-                  <div className="flex-shrink-0 w-9 h-9 bg-gray-100 rounded-lg flex items-center justify-center">
-                    {SCOPE_ICONS[scope] || <Shield className="w-5 h-5 text-gray-500" />}
+                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100">
+                    {SCOPE_ICONS[scope] || <Shield className="h-5 w-5 text-gray-500" />}
                   </div>
-                  <span className="font-medium">{scopeT(scope as keyof typeof scopeT) || scope}</span>
+                  <span className="font-medium">{scopeT(scope as any) || scope}</span>
                 </Label>
               </div>
             ))}
           </div>
         </div>
 
+        {requestedAudience.length > 0 && (
+          <div className="space-y-2">
+            <p className="mb-3 text-sm font-medium text-gray-700">Requested audiences</p>
+            <div className="divide-y divide-gray-100 overflow-hidden rounded-xl border border-gray-200">
+              {requestedAudience.map((audience) => (
+                <div
+                  key={audience}
+                  className="flex items-center gap-4 bg-white p-4 transition-colors hover:bg-gray-50"
+                >
+                  <Checkbox
+                    id={`audience_${audience}`}
+                    name={`audience_${audience}`}
+                    defaultChecked
+                    disabled={isProcessing}
+                    className="h-5 w-5 rounded border-gray-300 data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600"
+                  />
+                  <Label
+                    htmlFor={`audience_${audience}`}
+                    className="flex flex-1 cursor-pointer items-center gap-3 text-sm text-gray-700"
+                  >
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100">
+                      <Shield className="h-5 w-5 text-gray-500" />
+                    </div>
+                    <span className="font-medium">{audience}</span>
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="flex items-center space-x-3 py-2">
           <Checkbox
             id="remember"
             name="remember"
             disabled={isProcessing}
-            className="h-5 w-5 border-gray-300 rounded"
+            className="h-5 w-5 rounded border-gray-300"
           />
-          <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer font-normal">
+          <Label htmlFor="remember" className="cursor-pointer text-sm font-normal text-gray-600">
             {t('rememberDecision')}
           </Label>
         </div>
@@ -138,7 +170,7 @@ export function ConsentForm({
           <Button
             type="button"
             variant="outline"
-            className="h-11 px-6 text-sm font-semibold border-gray-300 text-gray-700 hover:bg-gray-100 hover:border-gray-400 rounded-xl transition-all"
+            className="h-11 rounded-xl border-gray-300 px-6 text-sm font-semibold text-gray-700 transition-all hover:border-gray-400 hover:bg-gray-100"
             onClick={handleDeny}
             disabled={isProcessing}
           >
@@ -153,7 +185,7 @@ export function ConsentForm({
           </Button>
           <Button
             type="submit"
-            className="h-11 px-6 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all"
+            className="h-11 rounded-xl bg-blue-600 px-6 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700 hover:shadow-md"
             disabled={isProcessing}
           >
             {isPending ? (

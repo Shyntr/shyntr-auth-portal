@@ -3,7 +3,7 @@ import { LoginForm } from '@/components/LoginForm';
 import { SessionExpired } from '@/components/SessionExpired';
 
 interface LoginPageProps {
-  searchParams: Promise<{ login_challenge?: string }>;
+  searchParams: Promise<{ login_challenge?: string; tenant_id?: string }>;
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
@@ -16,16 +16,16 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
   const [sessionRes, methodsRes] = await Promise.all([
     getLoginSession(loginChallenge),
-    getLoginMethods(loginChallenge)
+    getLoginMethods(loginChallenge),
   ]);
 
   if (sessionRes.error || !sessionRes.data || methodsRes.error) {
-    console.error('Login session or methods fetch failed:', sessionRes.error || methodsRes.error);
     return <SessionExpired />;
   }
 
-  const tenantName = sessionRes.data.tenant?.display_name || 'Shyntr';
-  const clientName = sessionRes.data.client?.client_name || 'Application';
+  const tenantName =
+    sessionRes.data.TenantID || methodsRes.data?.tenant_id || params.tenant_id || 'Shyntr';
+  const clientName = sessionRes.data.ClientID || 'Application';
   const methods = methodsRes.data?.methods || [];
 
   return (

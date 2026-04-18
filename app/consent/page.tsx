@@ -17,13 +17,13 @@ export default async function ConsentPage({ searchParams }: ConsentPageProps) {
   const { data, error } = await getConsentSession(consentChallenge);
 
   if (error || !data) {
-    console.error('Consent session fetch failed:', error);
     return <SessionExpired />;
   }
 
-  const tenantName = data.tenant?.display_name || 'Shyntr';
-  const clientName = data.client?.client_name || 'Application';
+  const tenantName = data.tenant || data.client?.tenant_id || 'Shyntr';
+  const clientName = data.client?.name || data.client_id || 'Application';
   const requestedScopes = data.requested_scope || ['openid', 'profile'];
+  const requestedAudience = data.requested_audience || [];
   const userSubject = data.subject;
 
   return (
@@ -32,6 +32,7 @@ export default async function ConsentPage({ searchParams }: ConsentPageProps) {
       tenantName={tenantName}
       clientName={clientName}
       requestedScopes={requestedScopes}
+      requestedAudience={requestedAudience}
       userSubject={userSubject}
     />
   );

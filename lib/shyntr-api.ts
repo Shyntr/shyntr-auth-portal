@@ -113,8 +113,11 @@ if (!INTERNAL_API_URL || !PUBLIC_API_URL) {
   );
 }
 
+const REQUIRED_INTERNAL_API_URL = INTERNAL_API_URL;
+const REQUIRED_PUBLIC_API_URL = PUBLIC_API_URL;
+
 const apiClient = axios.create({
-  baseURL: `${INTERNAL_API_URL}/admin`,
+  baseURL: `${REQUIRED_INTERNAL_API_URL}/admin`,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -250,7 +253,7 @@ export async function getLoginMethods(
 ): Promise<{ data?: LoginMethodsResponse; error?: ApiError }> {
   try {
     const response = await fetch(
-      `${PUBLIC_API_URL}/auth/methods?login_challenge=${encodeURIComponent(challenge)}`,
+      `${REQUIRED_PUBLIC_API_URL}/auth/methods?login_challenge=${encodeURIComponent(challenge)}`,
       {
         cache: 'no-store',
       }

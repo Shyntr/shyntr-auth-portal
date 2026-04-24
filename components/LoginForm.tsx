@@ -190,7 +190,13 @@ export function LoginForm({
           <Alert variant="destructive" className="rounded-xl border-red-200 bg-red-50">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription className="text-sm">
-              {state.error === 'invalid_credentials' ? t('invalidCredentials') : state.error}
+              {state.error === 'invalid_credentials'
+                ? t('invalidCredentials')
+                : state.error === 'login_failed'
+                  ? t('loginFailed')
+                  : state.error === 'login_unavailable'
+                    ? t('loginUnavailable')
+                    : state.error}
             </AlertDescription>
           </Alert>
         )}

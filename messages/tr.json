@@ -41,6 +41,8 @@
     "cancel": "İptal",
     "signingIn": "Giriş yapılıyor...",
     "invalidCredentials": "Geçersiz kullanıcı adı veya şifre",
+    "loginFailed": "Oturum açma başarısız oldu. Lütfen tekrar deneyin.",
+    "loginUnavailable": "Parola ile oturum açma şu anda kullanılamıyor.",
     "enterUsername": "Kullanıcı adınızı girin",
     "enterPassword": "Şifrenizi girin",
     "noMethods": "Bu uygulama/tenant için tanımlanmış bir giriş yöntemi bulunamadı."

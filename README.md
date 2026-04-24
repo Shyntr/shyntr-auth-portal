@@ -11,6 +11,28 @@
 
 The **Shyntr Auth Portal** is the highly scalable, user-facing authentication interface for the Shyntr ecosystem. It handles the core identity flows including Login, User Consent, and Logout routing for the Zero Trust Identity Broker.
 
+## Password Verifier Configuration
+
+Password login uses an external verifier endpoint returned by Shyntr as the password method `login_url`.
+
+The Auth Portal enforces strict outbound allowlisting before it will call that verifier. Outbound password-verifier requests are allowed only when the verifier origin matches one of:
+
+* `SHYNTR_INTERNAL_API_URL`
+* `SHYNTR_PUBLIC_API_URL`
+* `SHYNTR_AUTH_ALLOWED_ORIGINS`
+
+If the verifier origin is not allowlisted, the portal blocks the request, never calls the verifier, and password login fails with `login_failed`.
+
+`SHYNTR_AUTH_ALLOWED_ORIGINS` is optional and accepts a comma-separated list of exact origins. Only exact `http` or `https` origin matches are accepted. Wildcards are not supported. Invalid entries are ignored.
+
+Example:
+
+```env
+SHYNTR_AUTH_ALLOWED_ORIGINS=http://localhost:7499
+```
+
+Restart the Auth Portal after changing environment variables. If the verifier origin is not configured, password login fails with `login_failed`.
+
 ## ✨ Features
 * **Custom Authentication UI:** A frictionless and secure login experience.
 * **Consent Management:** Granular OAuth2/OIDC scope approval screens.
